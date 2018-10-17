@@ -125,7 +125,7 @@ var experiment = new lab.flow.Sequence({
     new lab.html.Screen({
       content: '<main class="content-vertical-center content-horizontal-center"><div style="text-align:center;"><p>That is the end of this part of the experiment!</p></div></main>',
       // Respond to clicks on the download button
-		timeout: 1000,
+      timeout: 1000,
     }),
   ],
   datastore: new lab.data.Store(),
