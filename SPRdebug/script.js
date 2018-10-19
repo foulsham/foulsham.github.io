@@ -73,7 +73,7 @@ const study = lab.util.fromObject({
             },
             "messageHandlers": {},
             "title": "panel",
-            "content": "\u003Cmain class=\"content-vertical-center content-horizontal-center\"\u003E\u003Cdiv\u003E\u003Cimg src=\"${parameters.imageName}\"\u003E\u003C\u002Fdiv\u003E\u003C\u002Fmain\u003E' "
+            "content": "\u003Cmain class=\"content-vertical-center content-horizontal-center\"\u003E\u003Cdiv\u003E\u003Cimg src=\"${parameters.imageName}\"\u003E\u003C\u002Fdiv\u003E\u003C\u002Fmain\u003E "
           }
         ]
       }
