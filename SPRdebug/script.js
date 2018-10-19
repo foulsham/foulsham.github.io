@@ -23,7 +23,13 @@ const study = lab.util.fromObject({
       "type": "lab.html.Screen",
       "parameters": {},
       "responses": {},
-      "messageHandlers": {},
+      "messageHandlers": {
+        "run": function anonymous() {
+console.log('A')
+var plug = document.getElementById("Plug"); //Get the Defined element
+plug.style.cssText += ';display:none !important;'; //Set the defined element's display style to "none"
+}
+      },
       "title": "Intro",
       "content": "Hello...",
       "timeout": "1000"
