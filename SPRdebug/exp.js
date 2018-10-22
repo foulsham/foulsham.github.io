@@ -25,7 +25,7 @@ const study = lab.util.fromObject({
       "responses": {},
       "messageHandlers": {},
       "title": "Intro",
-      "content": "Hello...",
+      "content": "Hello world...",
       "timeout": "1000"
     },
     {
