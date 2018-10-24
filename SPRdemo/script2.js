@@ -30,7 +30,8 @@
 var DataSource = AllDataSources[Math.floor(Math.random()*AllDataSources.length)];
 
 var n_trials = 3;//DataSource.length; //length of array gives number of sequences
-var URL_stem = "https://foulsham.github.io/SPR-example/img/"; //location of the stimuli, relative path to this file
+//var URL_stem = "https://foulsham.github.io/SPRdemo/img/"; //location of the stimuli, URL or...
+var URL_stem = "img/"; //location of the stimuli, relative path to this file
 
 // LAB.JS loop will handle randomisation, but need to transform the DataSource into an object for the trial list
 // i.e., loop through the data source, adding each item to named properties
