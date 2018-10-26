@@ -48,6 +48,8 @@ Run a local copy of the code by opening the html in browser (with development to
 
 (CODE FOR QUALTRICS)
 
+See example here: https://essex.eu.qualtrics.com/jfe/form/SV_1XkLIMvySp0WB2l
+
 FOR JS:
 
 	Qualtrics.SurveyEngine.addOnload(function()

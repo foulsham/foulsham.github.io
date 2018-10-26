@@ -105,7 +105,7 @@ const study = lab.util.fromObject({
       "templateParameters": trials,
       "responses": {},
       "messageHandlers": {},
-      "shuffle": false, //this means the trials will be in a shuffled order
+      "shuffle": true, //this means the trials will be in a shuffled order
       "title": "Trial",
       //the loop works by repeating a template, defined here
       "template": {
