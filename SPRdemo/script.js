@@ -1,4 +1,5 @@
 //Script for running the experiment. Modified from a builder example from lab.js
+//See also readme.txt with notes for integrating HTML, js, qualtrics etc.
 
 //template code can be downloaded from  https://labjs.felixhenninger.com
 
@@ -14,42 +15,55 @@
 	"<p>At the end of each strip we'll ask you how easy it was to understand the story.</p>"+
 	"<p>Please press SPACE when you're ready (you may need to click here with the mouse first!)</p>"+
 	"</div></main>"
+	//define the get ready text, not currently used because set further down
 	var getReadyText = "<main class='content-vertical-center content-horizontal-center'><div style='text-align:center;'><p>Get ready for the next strip!</p></div></main>"
 	
 //CHANGE THE ISI DURATIONS HERE
-	var getReadyDuration = 1000
+	var getReadyDuration = 2000
 
 //TO CHANGE THE SEQUENCE OF EVENTS IN A TRIAL...
-	//head down to line 108 where the inner loop template starts
+	//head down to line 110 where the inner loop template starts
 
-//Deal with counterbalancing etc and re-configure so that we can use in lab.js template
-//using same datasource arrays as in previous experiments with jspsych
+//TO CHANGE THE SOURCE IMAGES ETC
+	//var URL_stem = "https://foulsham.github.io/SPRdemo/img/"; //location of the stimuli, URL or...
+	var URL_stem = "img/"; //location of the stimuli, relative path to this file
 
-// (AllDataSources is originally loaded in the html header)
-// choose one of the sets at random
-var DataSource = AllDataSources[Math.floor(Math.random()*AllDataSources.length)];
+	//Deal with counterbalancing etc and re-configure so that we can use in lab.js template
+	//using same datasource arrays as in previous experiments with jspsych
 
-var n_trials = 3;//DataSource.length; //length of array gives number of sequences
-var URL_stem = "https://foulsham.github.io/SPR-example/img/"; //location of the stimuli, relative path to this file
+	// (AllDataSources is originally loaded in the html header)
+	// choose one of the sets at random
+	var DataSource = AllDataSources[Math.floor(Math.random()*AllDataSources.length)];
 
-// LAB.JS loop will handle randomisation, but need to transform the DataSource into an object for the trial list
-// i.e., loop through the data source, adding each item to named properties
+	var n_trials = 5;//DataSource.length; //length of array gives number of sequences
 
-	//this is the list of parameters that we are going to end up with for every "trial" sequence
-	trialProps=["version","strip","condition","p1path","p2path","p3path","p4path","p5path","p6path"];
+	// LAB.JS loop will handle randomisation, but need to transform the DataSource into an object for the trial list
+	// i.e., loop through the data source, adding each item to named properties
 
-	trials=[];
-	for (index = 0; index < n_trials; index++) {
+		//this is the list of parameters that we are going to end up with for every "trial" sequence
+		trialProps=["version","strip","condition","p1path","p2path","p3path","p4path","p5path","p6path"];
 
-		//for each trial, loop through and add them to a new object with named fields
-		thisTrial={};
-		for (p = 0; p < trialProps.length; p++) {
-			thisTrial[trialProps[p]]=DataSource[index][p];
+		trials=[];
+		for (index = 0; index < n_trials; index++) {
+
+			//for each trial, loop through and add them to a new object with named fields
+			thisTrial={};
+			for (p = 0; p < trialProps.length; p++) {
+				thisTrial[trialProps[p]]=DataSource[index][p];
+			}
+			trials.push(thisTrial);
 		}
-		trials.push(thisTrial);
-	}
 
-
+//TO CHANGE THE GET READY SCREEN TO GIVE AN UPDATE ON PROGRESS
+// a handler function will run every time the screen is prepared to update this
+	var trialIndex = 0
+	var getReadyText = "<main class='content-vertical-center content-horizontal-center'><div style='text-align:center;'>"+
+	"<p>Get ready for the next strip!</p>"+
+	"<p>This is trial " + trialIndex + " of "+n_trials+"</p>"+
+	"</div></main>"
+	
+	
+		
 // Define study
 //this uses JSON syntax, so need to be careful with double quotes etc?
 
@@ -57,7 +71,7 @@ var URL_stem = "https://foulsham.github.io/SPR-example/img/"; //location of the 
 const study = lab.util.fromObject({
   "title": "root",
   "type": "lab.flow.Sequence",
-  "parameters": {},
+  "parameters": {}, //all trials will inherit this
   "plugins": [
     {
       "type": "lab.plugins.Metadata"
@@ -104,11 +118,20 @@ const study = lab.util.fromObject({
         "content": [
           {
             "type": "lab.html.Screen", //the get ready screen
-            "parameters": {},
+            "parameters": {"getReadyText": getReadyText},
             "responses": {},
-            "messageHandlers": {},
+            "messageHandlers": {"before:prepare": function anonymous(){ //this is a function which will
+					trialIndex = trialIndex+1;
+					getReadyText = "<main class='content-vertical-center content-horizontal-center'><div style='text-align:center;'>"+
+				"<p>Get ready for the next strip!</p>"+
+				"<p>This is trial " + trialIndex + " of "+n_trials+"</p>"+
+				"</div></main>"
+					this.parameters.getReadyText = getReadyText
+					//console.log("hello")
+			}
+},
             "title": "GetReady",
-            "content": getReadyText,
+            "content": "${parameters.getReadyText}",
             "timeout": getReadyDuration,
             "datacommit": false
           },
@@ -184,7 +207,8 @@ const study = lab.util.fromObject({
       "messageHandlers": {},
       "title": "Bye",
       "content": "Ending the experiment! This should time out automatically...",
-      "timeout": "100"
+      "timeout": "100",
+      "datacommit": false
     }
   ]
 })
