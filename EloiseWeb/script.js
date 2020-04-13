@@ -168,7 +168,7 @@ const study = lab.util.fromObject({
             "messageHandlers": {"before:prepare": function anonymous(){ //this is a function which will happen each time we prepare this component
 					trialIndex = trialIndex+1;
 					getReadyText = "<main class='content-vertical-center content-horizontal-center'><div style='text-align:center;'>"+
-				"<p>Get ready for the next strip!</p>"+
+				"<p>Get ready for the next trial!</p>"+
 				"<p>This is practice trial " + trialIndex + " of "+pdata.length+"</p>"+
 				"</div></main>"
 					this.parameters.getReadyText = getReadyText
