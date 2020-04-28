@@ -25,7 +25,7 @@ $(document).ready(function(){
 // 	  };
 		alert('Video has ended! We can now download data...')
 		var m = {timeseries: timeseries,datatype: 'tsdata'};
-		parent.postMessage(m,"*")
+		parent.postMessage('hello',"*")
 // 		Qualtrics.SurveyEngine.setEmbeddedData('ts-data', timeseries)
 // 		document.querySelector('.NextButton').click()	  
 	});
