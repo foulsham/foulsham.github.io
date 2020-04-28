@@ -23,9 +23,7 @@ $(document).ready(function(){
 // 	  if(confirm('Video has ended! We can now download data...')){
 // 	  exportToCsv('ratings.csv', timeseries)
 // 	  };
-		alert('Video has ended! We can now download data...')
-		var m = {timeseries: timeseries,datatype: 'tsdata'};
-		parent.postMessage('hello',"*")
+		parent.postMessage(timeseries,"*")
 // 		Qualtrics.SurveyEngine.setEmbeddedData('ts-data', timeseries)
 // 		document.querySelector('.NextButton').click()	  
 	});
