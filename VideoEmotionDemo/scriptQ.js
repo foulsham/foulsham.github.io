@@ -11,21 +11,21 @@
 //set the labels and keep a log of the ratings
 setInterval(function() {
 	var cTime=$('#video_container').find('video').get(0).currentTime;
-  $('#currentTime').html(cTime);
+  	$('#currentTime').html(cTime);
   	var cVal=$('#myRange').val()
-  $('#currentEmotion').html(cVal);
+  	$('#currentEmotion').html(cVal);
   timeseries.push([cTime,cVal]);
 }, 500)
     
 //when the doc is loaded, add an event which triggers when we are done
 $(document).ready(function(){
 	$('video').on('ended',function(){
-// 	  if(confirm('Video has ended! We can now download data...')){
-// 	  exportToCsv('ratings.csv', timeseries)
-// 	  };
-		parent.postMessage(timeseries,"*")
-// 		Qualtrics.SurveyEngine.setEmbeddedData('ts-data', timeseries)
-// 		document.querySelector('.NextButton').click()	  
+		//this function fires at the end of the video
+		//send a message to the parent (Qualtrics) and pass the data
+		var m = JSON.stringify(timeseries);
+		parent.postMessage(m,"*") 
+		//change the text label to say we're at the end and can finish
+		$('#instructLabel').html('End of video, click the "next" button to continue...');
 	});
 });
 
