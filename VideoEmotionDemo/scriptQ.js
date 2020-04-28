@@ -23,8 +23,10 @@ $(document).ready(function(){
 // 	  if(confirm('Video has ended! We can now download data...')){
 // 	  exportToCsv('ratings.csv', timeseries)
 // 	  };
-		Qualtrics.SurveyEngine.setEmbeddedData('ts-data', timeseries)
-		document.querySelector('.NextButton').click()	  
+		alert('Video has ended! We can now download data...')
+		parent.postMessage(timeseries,"*")
+// 		Qualtrics.SurveyEngine.setEmbeddedData('ts-data', timeseries)
+// 		document.querySelector('.NextButton').click()	  
 	});
 });
 
