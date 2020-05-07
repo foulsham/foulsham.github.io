@@ -32,6 +32,28 @@ $(document).ready(function(){
 //start a new array when script is first run
 var timeseries = [['vidms','rating']];
 
+//for customization, add a message receiver which will change the current video
+window.onload = function() {
+  // Get a reference to the div on the page that will display the
+  // message text.
+  var viddiv = document.getElementById('video_container');
+
+  // A function to process messages received by the window.
+  function receiveMessage(e) {
+    // Check to make sure that this message came from the correct domain.
+    if (e.origin !== "essex.eu.qualtrics.com")
+      return;
+
+    // Update the div element to display the message.
+    viddiv.innerHTML = "Message Received: " + e.data;
+  }
+
+  // Setup an event listener that calls receiveMessage() when the window
+  // receives a new MessageEvent.
+  window.addEventListener('message', receiveMessage);
+}
+
+//don't need this any more
 //useful function for downloading a CSV from an array
 function exportToCsv(filename, rows) {
         var processRow = function (row) {
