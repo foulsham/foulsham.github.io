@@ -12,7 +12,7 @@
 setInterval(function() {
 	var cTime=$('#video_container').find('video').get(0).currentTime;
 	var totalDur=$('#video_container').find('video').get(0).duration;
-	if(cTime>0) && (cTime<totalDur){
+	if((cTime>0) && (cTime<totalDur)){
 		console.log(cTime);
 		$('#currentTime').html(cTime);
 		var cVal=$('#myRange').val()
