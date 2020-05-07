@@ -10,3 +10,7 @@
 	position: absolute; /*there's weird sizing issues here...because of transform?*/
 	left: 320px;
 }
+
+.hranger {
+	width: 720px;
+}
