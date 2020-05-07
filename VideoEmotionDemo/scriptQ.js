@@ -11,11 +11,14 @@
 //set the labels and keep a log of the ratings
 setInterval(function() {
 	var cTime=$('#video_container').find('video').get(0).currentTime;
-	console.log(cTime);
-  	$('#currentTime').html(cTime);
-  	var cVal=$('#myRange').val()
-  	$('#currentEmotion').html(cVal);
-  timeseries.push([cTime,cVal]);
+	var totalDur=$('#video_container').find('video').get(0).duration;
+	if(cTime>0) && (cTime<totalDur){
+		console.log(cTime);
+		$('#currentTime').html(cTime);
+		var cVal=$('#myRange').val()
+		$('#currentEmotion').html(cVal);
+	  timeseries.push([cTime,cVal]);
+	};
 }, 500)
     
 //when the doc is ready, add the current video and then add an event to listen for the end
