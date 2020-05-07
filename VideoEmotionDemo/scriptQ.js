@@ -11,6 +11,7 @@
 //set the labels and keep a log of the ratings
 setInterval(function() {
 	var cTime=$('#video_container').find('video').get(0).currentTime;
+	console.log(cTime);
   	$('#currentTime').html(cTime);
   	var cVal=$('#myRange').val()
   	$('#currentEmotion').html(cVal);
