@@ -37,10 +37,13 @@ window.onload = function() {
   // Get a reference to the div on the page that will display the
   // message text.
   var viddiv = document.getElementById('video_container');
+  console.log("onload fires")
 
   // A function to process messages received by the window.
   function receiveMessage(e) {
     // Check to make sure that this message came from the correct domain.
+  console.log("receive function fires")	  
+  console.log(e)	 	  
     if (e.origin !== "essex.eu.qualtrics.com")
       return;
 
