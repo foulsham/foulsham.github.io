@@ -31,7 +31,7 @@ $(document).ready(function(){
 	  // Get a reference to the div on the page that will display the
 	  // message text.
 	  var viddiv = document.getElementById('video_container');
-	  console.log("onload fires")
+	  console.log("IF onready fires")
 
 	  // A function to process messages received by the window.
 	  function receiveMessage(e) {
@@ -48,6 +48,8 @@ $(document).ready(function(){
 	  // Setup an event listener that calls receiveMessage() when the window
 	  // receives a new MessageEvent.
 	  window.addEventListener('message', receiveMessage);	
+	  parent.iframeReady();
+	
 });
 
 //start a new array when script is first run
