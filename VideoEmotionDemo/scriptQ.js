@@ -28,28 +28,19 @@ $(document).ready(function(){
 		$('#instructLabel').html('End of video, click the "next" button to continue...');
 	});
 	
-	  // Get a reference to the div on the page that will display the
-	  // message text.
-	  var viddiv = document.getElementById('video_container');
-	  console.log("IF onready fires")
-
-	  // A function to process messages received by the window.
-	  function receiveMessage(e) {
-	    // Check to make sure that this message came from the correct domain.
-	  console.log("receive function fires")	  
-	  console.log(e)	 	  
-	    if (e.origin !== "essex.eu.qualtrics.com")
-	      return;
-
-	    // Update the div element to display the message.
-	    viddiv.innerHTML = "Message Received: " + e.data;
-	  }
-
-	  // Setup an event listener that calls receiveMessage() when the window
-	  // receives a new MessageEvent.
-	  window.addEventListener('message', receiveMessage);	
-	  parent.iframeReady();
+	//get the URL query string and use it to set the video we're displaying on this trial
+	//this is neat since we are embedding this and can customize the one html doc
+	const queryString = window.location.search;
+	console.log(queryString);
+	const urlParams = new URLSearchParams(queryString);
+	var thisVid = urlParams.get('vid');
+	var viddiv = document.getElementById('video_container');
 	
+	var vidhtml = '<video preload="none" poster="poster.jpg" controls="" id="video" tabindex="0"><source type="video/mp4" src="'+
+	thisVid+'.mp4" id="mp4"></source><source type="video/webm" src="'+thisVid+
+	'.webm" id="webm"></source><p>Your setup does not support the HTML5 Video element.</p></video>'	;
+	
+	viddiv.innerHTML = vidhtml;	
 });
 
 //start a new array when script is first run
