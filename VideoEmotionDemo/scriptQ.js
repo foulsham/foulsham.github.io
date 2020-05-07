@@ -17,17 +17,8 @@ setInterval(function() {
   timeseries.push([cTime,cVal]);
 }, 500)
     
-//when the doc is loaded, add an event which triggers when we are done
+//when the doc is ready, add the current video and then add an event to listen for the end
 $(document).ready(function(){
-	$('video').on('ended',function(){
-		//this function fires at the end of the video
-		//send a message to the parent (Qualtrics) and pass the data
-		console.log("firing on end of vid");
-		var m = JSON.stringify(timeseries);
-		parent.postMessage(m,"*") 
-		//change the text label to say we're at the end and can finish
-		$('#instructLabel').html('End of video, click the "next" button to continue...');
-	});
 	
 	//get the URL query string and use it to set the video we're displaying on this trial
 	//this is neat since we are embedding this and can customize the one html doc
@@ -42,6 +33,16 @@ $(document).ready(function(){
 	'.webm" id="webm"></source><p>Your setup does not support the HTML5 Video element.</p></video>'	;
 	
 	viddiv.innerHTML = vidhtml;	
+	
+	$('video').on('ended',function(){
+		//this function fires at the end of the video
+		//send a message to the parent (Qualtrics) and pass the data
+		console.log("firing on end of vid");
+		var m = JSON.stringify(timeseries);
+		parent.postMessage(m,"*") 
+		//change the text label to say we're at the end and can finish
+		$('#instructLabel').html('End of video, click the "next" button to continue...');
+	});	
 });
 
 //start a new array when script is first run
