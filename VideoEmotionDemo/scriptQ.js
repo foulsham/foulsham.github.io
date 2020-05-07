@@ -22,6 +22,7 @@ $(document).ready(function(){
 	$('video').on('ended',function(){
 		//this function fires at the end of the video
 		//send a message to the parent (Qualtrics) and pass the data
+		console.log("firing on end of vid");
 		var m = JSON.stringify(timeseries);
 		parent.postMessage(m,"*") 
 		//change the text label to say we're at the end and can finish
