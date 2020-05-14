@@ -19,7 +19,7 @@ setInterval(function() {
 		$('#currentEmotion').html(cVal);
 	  timeseries.push([cTime,cVal]);
 	};
-}, 500)
+}, 250) //set the interval in ms here. 250ms = 4Hz
     
 //when the doc is ready, add the current video and then add an event to listen for the end
 $(document).ready(function(){
