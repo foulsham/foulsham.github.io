@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="jsPsych-master/jspsych.js"></script>
+  <script src="jsPsych-master/plugins/jspsych-animation.js"></script>
+  <link rel="stylesheet" href="jsPsych-master/css/jspsych.css"></link>
+</head>
+<body></body>
+<script>
+
+	//define our list of images using a loop
+  var frameList = [];
+  var pad = "0000";
+	//var result = (pad+n).slice(-pad.length);
+  for (index = 1; index < 60; index++) {
+  
+  	result = (pad+index).slice(-pad.length);
+  	frameList.push('img/time_'+result+'.png');
+  
+  };
+
+  var animation_trial = {
+    type: 'animation',
+    stimuli: frameList,
+    sequence_reps: 20,
+    frame_time: 33,
+    prompt: '<p>Watch the action.</p>'
+  };
+
+//these extra bits might solve the preloading problem in firefox
+function preloadImage(url) {
+  return fetch(url)
+    .then(x => x.blob())
+}
+
+function preloadImages(images) {
+  return Promise.all(images.map(preloadImage))
+}
+
+preloadImages(frameList)
+  .then(() => {
+    jsPsych.init({
+    preload_images: frameList,
+    timeline: [animation_trial],
+    on_finish: function() {
+      jsPsych.data.displayData();
+    }
+  }) 
+  })
+
+</script>
+
+</html>
