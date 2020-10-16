@@ -8,7 +8,7 @@
 <body></body>
 <script>
 
-	//define our list of images using a loop
+  //define our list of images using a loop
   var frameList = [];
   var pad = "0000";
 	//var result = (pad+n).slice(-pad.length);
@@ -19,10 +19,11 @@
   
   };
 
+	//define the animation trial
   var animation_trial = {
     type: 'animation',
     stimuli: frameList,
-    sequence_reps: 20,
+    sequence_reps: 1,
     frame_time: 33,
     choices: ['1','2'],
     prompt: '<p>Waving or talking? Press 1 or 2 as soon as you know...</p>'
@@ -33,9 +34,21 @@
     preload_images: frameList,
     timeline: [animation_trial],
     on_finish: function() {
-      jsPsych.data.displayData();
+      // select all trials
+		var all_data = jsPsych.data.get();
+
+		// get csv representation of data and log to console
+		console.log(all_data.csv());
+		console.log(parent);
+		
+		//send it to qualtrics, probably need to parse it first
+		var m = all_data.csv();
+		parent.postMessage(m,"*") 
     }
   });
+
+	//define a function that will fire at the end and send the data to qualtrics
+	
 
 </script>
 
