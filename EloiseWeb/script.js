@@ -1,4 +1,6 @@
 //Script for running PS300 for Eloise
+//updated Dec 2020 for Iain
+	//see debugging around line 78
 
 //Script for running the experiment. Modified from a builder example from lab.js
 
@@ -68,10 +70,16 @@ var URL_stem = "img/"; //location of the stimuli, relative path to this file //n
 
 	var m = Math.random() //randomly order blocks 1 and 2
 
-	if (m>0.5) {b1data = trials.slice(6,78) //78
-	b2data=trials.slice(78)}
-	else {b1data = trials.slice(78)
-	b2data = trials.slice(6,78)}		
+	//for debugging, change block length to 5...
+	if (m>0.5) {b1data = trials.slice(6,11) //78
+	b2data=trials.slice(78,83)}
+	else {b1data = trials.slice(78,83)
+	b2data = trials.slice(6,11)}
+
+	//if (m>0.5) {b1data = trials.slice(6,78) //78
+	//b2data=trials.slice(78)}
+	//else {b1data = trials.slice(78)
+	//b2data = trials.slice(6,78)}		
 
 //TO CHANGE THE GET READY SCREEN TO GIVE AN UPDATE ON PROGRESS
 // a handler function will run every time the screen is prepared to update this
