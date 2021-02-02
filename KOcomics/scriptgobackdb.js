@@ -67,7 +67,7 @@
 	"<p>Get ready for the next strip!</p>"+
 	"<p>This is trial " + trialIndex + " of "+n_trials+"</p>"+
 	"</div></main>"
-	//console.log(trials)
+	console.log(trials)
 	
 		
 // Define study
@@ -130,7 +130,6 @@ const study = lab.util.fromObject({
 					trialIndex = trialIndex+1;
 					getReadyText = "<main class='content-vertical-center content-horizontal-center'><div style='text-align:center;'>"+
 				"<p>Get ready for the next strip!</p>"+
-				"<p>Press 2 to move forward and 1 to move back to the previous panel.</p>"+
 				"<p>This is trial " + trialIndex + " of "+n_trials+"</p>"+
 				"</div></main>"
 					this.parameters.getReadyText = getReadyText
@@ -145,7 +144,7 @@ const study = lab.util.fromObject({
               
 		  {
 			"type": "lab.html.Screen", //a screen presenting our stimulus. NEW: now just one screen with events which control looping
-			"parameters":{"p":1,"panelTimes":[],"lastTime":0}, //keep track of panel count and response times
+			"parameters":{"p":1,"panelTimes":[]}, //keep track of panel count and response times
 			"title": "panels", //tells us we are showing panels, have to handle everything else ourselves
 			"content": "<main class='content-vertical-center content-horizontal-center'><div style='text-align:center;' id='imdiv'><img src='" + URL_stem + "${parameters.p1path}" +"'></div></main>", 
 			'events': {"keypress(2)": function(event) { //we'll call this function to go to next panel
@@ -154,36 +153,28 @@ const study = lab.util.fromObject({
       					pt=this.parameters.panelTimes
       					x=null
       					switch (p) { //depending on the current panel set the new one
-      					//when we switch, duration is the diff between last event time and time now
-      						case 2: //we've advanced to 2, i.e., ended 1
+      					
+      						case 2: 
       							ctext = URL_stem + this.parameters.p2path;
-      							x={"p":1,"dur":this.timer-this.parameters.lastTime}; 
+      							x={"p":2,"dur":100};
       							break;
       						case 3:
       							ctext = URL_stem + this.parameters.p3path;
-      							x={"p":2,"dur":this.timer-this.parameters.lastTime};
+      							x={"p":3,"dur":100};
       							break;      
       						case 4: 
       							ctext = URL_stem + this.parameters.p4path;
-      							x={"p":3,"dur":this.timer-this.parameters.lastTime};
       							break;
       						case 5:
       							ctext = URL_stem + this.parameters.p5path;
-      							x={"p":4,"dur":this.timer-this.parameters.lastTime};
       							break; 
       						case 6: 
       							ctext = URL_stem + this.parameters.p6path;
-      							x={"p":5,"dur":this.timer-this.parameters.lastTime};
       							break;
       						case 7: //end component here by calling end, not sure how though!
-      							x={"p":6,"dur":this.timer-this.parameters.lastTime};    							
       							this.end()							      													      					
-      					}	
-      					//add the data to our growing list						
-      					pt.push(x);
-      					this.parameters.panelTimes=pt;
-      					//reset the last time
-      					this.parameters.lastTime=this.timer;
+      					}							
+      					if (x) {pt.push(x);this.parameters.panelTimes=pt;}
       										
       					//now change it using div
       					document.getElementById('imdiv').innerHTML="<img src='" + ctext + "'>";
@@ -192,47 +183,29 @@ const study = lab.util.fromObject({
 						"keypress(1)": function(event) { //we'll call this to go back a panel
       					p=this.parameters.p-1
       					this.parameters.p=p
-      					pt=this.parameters.panelTimes
-      					x=null      					
       					switch (p) { //depending on the current panel set the new one
-      					  							
-      						case 1: //we've come from 2
+      					
+      						case 0: //handle to stop becoming negative
+        						p=1;
+      							this.parameters.p=p;
+      							break;    							
+      						case 1: 
       							ctext = URL_stem + this.parameters.p1path;
-      							x={"p":2,"dur":this.timer-this.parameters.lastTime};
       							break;
       						case 2:
       							ctext = URL_stem + this.parameters.p2path;
-      							x={"p":3,"dur":this.timer-this.parameters.lastTime};
       							break;      
       						case 3: 
       							ctext = URL_stem + this.parameters.p3path;
-      							x={"p":4,"dur":this.timer-this.parameters.lastTime};
       							break;
       						case 4:
       							ctext = URL_stem + this.parameters.p4path;
-      							x={"p":5,"dur":this.timer-this.parameters.lastTime};
       							break; 
       						case 5: 
-      							ctext = URL_stem + this.parameters.p5path;	
-      							x={"p":6,"dur":this.timer-this.parameters.lastTime};				      													      					
-      					}					
-      					
-      					//handle case where we've tried to go back on p1
-      					if (p>0) {
-							//add the data to our growing list						
-							pt.push(x);
-							this.parameters.panelTimes=pt;
-							//reset the last time
-							this.parameters.lastTime=this.timer;      					
-												
-							//now change it using div
-							document.getElementById('imdiv').innerHTML="<img src='" + ctext + "'>";		
-      					}   else {
-      					
-      						p=1;
-      						this.parameters.p=p;
-      					
-      					}
+      							ctext = URL_stem + this.parameters.p5path;					      													      					
+      					}											
+      					//now change it using div
+      					document.getElementById('imdiv').innerHTML="<img src='" + ctext + "'>";						
 											
 							},//end of this event
 						},//end of all events			
@@ -268,7 +241,7 @@ const study = lab.util.fromObject({
 study.options.datastore = new lab.data.Store()
 
 //useful for debugging data
-//study.on('end', () => study.options.datastore.show())
+study.on('end', () => study.options.datastore.show())
 
 // Let's go!
 study.run()

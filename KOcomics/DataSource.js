@@ -1,12 +1,15 @@
 
 var DataSourceA = [
-["A",1,"13.rain_doghouse.jpg",24,"s1_L2x3_1.jpg","s1_L2x3_2.jpg","s1_L2x3_3.jpg","s1_L2x3_4.jpg","s1_L2x3_5.jpg","s1_L2x3_6.jpg","The dog found shelter by the end of the story.",2]
+["A",1,"13.rain_doghouse.jpg",24,"s1_L2x3_1.jpg","s1_L2x3_2.jpg","s1_L2x3_3.jpg","s1_L2x3_4.jpg","s1_L2x3_5.jpg","s1_L2x3_6.jpg","The dog found shelter by the end of the story.",1],
+["A",21,"23.newspaper_hat.jpg",33,"s21_L3x2_1.jpg","s21_L3x2_2.jpg","s21_L3x2_3.jpg","s21_L3x2_4.jpg","s21_L3x2_5.jpg","s21_L3x2_6.jpg","The dog put a piece of paper on his head.",1]
 ];
 var DataSourceB = [
-["A",1,"13.rain_doghouse.jpg",24,"s1_L2x3_1.jpg","s1_L2x3_2.jpg","s1_L2x3_3.jpg","s1_L2x3_4.jpg","s1_L2x3_5.jpg","s1_L2x3_6.jpg","The dog found shelter by the end of the story.",2]
+["B",1,"13.rain_doghouse.jpg",24,"s1_L2x3_1.jpg","s1_L2x3_2.jpg","s1_L2x3_3.jpg","s1_L2x3_4.jpg","s1_L2x3_5.jpg","s1_L2x3_6.jpg","The dog found shelter by the end of the story.",1],
+["B",21,"23.newspaper_hat.jpg",33,"s21_L3x2_1.jpg","s21_L3x2_2.jpg","s21_L3x2_3.jpg","s21_L3x2_4.jpg","s21_L3x2_5.jpg","s21_L3x2_6.jpg","The dog put a piece of paper on his head.",1]
 ];
 var DataSourceC = [
-["A",1,"13.rain_doghouse.jpg",24,"s1_L2x3_1.jpg","s1_L2x3_2.jpg","s1_L2x3_3.jpg","s1_L2x3_4.jpg","s1_L2x3_5.jpg","s1_L2x3_6.jpg","The dog found shelter by the end of the story.",2]
+["C",1,"13.rain_doghouse.jpg",24,"s1_L2x3_1.jpg","s1_L2x3_2.jpg","s1_L2x3_3.jpg","s1_L2x3_4.jpg","s1_L2x3_5.jpg","s1_L2x3_6.jpg","The dog found shelter by the end of the story.",1],
+["C",21,"23.newspaper_hat.jpg",33,"s21_L3x2_1.jpg","s21_L3x2_2.jpg","s21_L3x2_3.jpg","s21_L3x2_4.jpg","s21_L3x2_5.jpg","s21_L3x2_6.jpg","The dog put a piece of paper on his head.",1]
 ];
 
 // var DataSourceB = [
