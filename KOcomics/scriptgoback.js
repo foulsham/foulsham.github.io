@@ -7,6 +7,7 @@
 //LATEST CHANGES FEB 2021
 // - added question screen, this is loaded from datasource and presented as an HTML at the end
 // - this VERSION allows people to go back, meaning trial loop is rewritten to use functions
+// - also added preloading which may help?
 
 //NOTES ON CHANGING!
 
@@ -134,7 +135,8 @@ const study = lab.util.fromObject({
 				"<p>This is trial " + trialIndex + " of "+n_trials+"</p>"+
 				"</div></main>"
 					this.parameters.getReadyText = getReadyText
-					//console.log("hello")
+					//this.options.media.images=[this.parameters.p1path]
+					//console.log(this.options.media)
 			}
 },
             "title": "GetReady",
@@ -147,6 +149,7 @@ const study = lab.util.fromObject({
 			"type": "lab.html.Screen", //a screen presenting our stimulus. NEW: now just one screen with events which control looping
 			"parameters":{"p":1,"panelTimes":[],"lastTime":0}, //keep track of panel count and response times
 			"title": "panels", //tells us we are showing panels, have to handle everything else ourselves
+			"media":{}, //new, for preloading. Sets up empty object which we then fill in beforeprep handler
 			"content": "<main class='content-vertical-center content-horizontal-center'><div style='text-align:center;' id='imdiv'><img src='" + URL_stem + "${parameters.p1path}" +"'></div></main>", 
 			'events': {"keypress(2)": function(event) { //we'll call this function to go to next panel
       					p=this.parameters.p+1
@@ -235,7 +238,12 @@ const study = lab.util.fromObject({
       					}
 											
 							},//end of this event
-						},//end of all events			
+						},//end of all events
+				"messageHandlers": {"before:prepare": function anonymous(){ //this is a function which will happen each time we prepare this component
+					this.options.media.images=[URL_stem + this.parameters.p1path,URL_stem + this.parameters.p2path,URL_stem + this.parameters.p3path,URL_stem + this.parameters.p4path,URL_stem + this.parameters.p5path,URL_stem + this.parameters.p6path]
+					//console.log(this.options.media)
+			}
+},			
 		  },
          
                 

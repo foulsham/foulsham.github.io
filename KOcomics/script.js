@@ -6,6 +6,7 @@
 
 //LATEST CHANGES FEB 2021
 // - added question screen, this is loaded from datasource and presented as an HTML at the end
+// - also added preloading which may help?
 
 //NOTES ON CHANGING!
 
@@ -116,6 +117,7 @@ const study = lab.util.fromObject({
       "template": {
         "type": "lab.flow.Sequence",
         "parameters": {},
+        "media": {},
         "responses": {},
         "messageHandlers": {},
         "title": "Trial Sequence",
@@ -132,6 +134,7 @@ const study = lab.util.fromObject({
 				"<p>This is trial " + trialIndex + " of "+n_trials+"</p>"+
 				"</div></main>"
 					this.parameters.getReadyText = getReadyText
+					this.options.media.images=[URL_stem + this.parameters.p1path,URL_stem + this.parameters.p2path,URL_stem + this.parameters.p3path,URL_stem + this.parameters.p4path,URL_stem + this.parameters.p5path,URL_stem + this.parameters.p6path]
 					//console.log("hello")
 			}
 },
