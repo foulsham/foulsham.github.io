@@ -19,7 +19,7 @@ var URL_stem = "img/"; //location of the stimuli, relative path to this file //n
 //CHANGE THE ISI DURATIONS HERE
 	var getReadyDuration = 2000
 	var fixCrossDuration = 1000
-	var faceDuration = 300
+	var faceDuration = 200
 
 //TO CHANGE THE SOURCE IMAGES ETC
 
@@ -158,7 +158,7 @@ const study = lab.util.fromObject({
 
 // Add data storage support
 study.options.datastore = new lab.data.Store()
-study.on('end', () => study.options.datastore.show())
+//study.on('end', () => study.options.datastore.show())
 
 // Let's go!
 study.run()
