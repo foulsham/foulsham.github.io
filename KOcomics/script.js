@@ -45,6 +45,8 @@
 
 	// LAB.JS loop will handle randomisation, but need to transform the DataSource into an object for the trial list
 	// i.e., loop through the data source, adding each item to named properties
+	
+	//NOW going to split this into blocks (manually)
 
 		//this is the list of parameters that we are going to end up with for every "trial" sequence
 		trialProps=["version","stripnum","strip","condition","p1path","p2path","p3path","p4path","p5path","p6path","qText","corrresp"];
@@ -59,6 +61,15 @@
 			}
 			trials.push(thisTrial);
 		}
+		
+		var m = Math.random() //randomly order blocks 1 and 2
+		if (m>0.5) {
+			trialsB1=trials.slice(0,(n_trials/2));
+			trialsB2=trials.slice((n_trials/2)); }
+		else {
+			trialsB2=trials.slice(0,(n_trials/2));
+			trialsB1=trials.slice((n_trials/2)); }			
+			
 
 //TO CHANGE THE GET READY SCREEN TO GIVE AN UPDATE ON PROGRESS
 // a handler function will run every time the screen is prepared to update this
@@ -67,7 +78,8 @@
 	"<p>Get ready for the next strip!</p>"+
 	"<p>This is trial " + trialIndex + " of "+n_trials+"</p>"+
 	"</div></main>"
-	console.log(trials)
+	//console.log(trialsB1)
+	//console.log(trialsB2)	
 	
 		
 // Define study
@@ -108,11 +120,11 @@ const study = lab.util.fromObject({
       "type": "lab.flow.Loop", //next, we have a loop which is going to loop through all our trials/strips
       "parameters": {},
       //every time the loop runs, it will use a set of parameters from this list
-      "templateParameters": trials,
+      "templateParameters": trialsB1,
       "responses": {},
       "messageHandlers": {},
       "shuffle": true, //this means the trials will be in a shuffled order
-      "title": "Trial",
+      "title": "TrialB1",
       //the loop works by repeating a template, defined here
       "template": {
         "type": "lab.flow.Sequence",
@@ -203,6 +215,105 @@ const study = lab.util.fromObject({
         ]
       } 
     },
+    {
+      "type": "lab.flow.Loop", //next, we have a loop which is going to loop through all our trials/strips
+      "parameters": {},
+      //every time the loop runs, it will use a set of parameters from this list
+      "templateParameters": trialsB2,
+      "responses": {},
+      "messageHandlers": {},
+      "shuffle": true, //this means the trials will be in a shuffled order
+      "title": "TrialB2",
+      //the loop works by repeating a template, defined here
+      "template": {
+        "type": "lab.flow.Sequence",
+        "parameters": {},
+        "media": {},
+        "responses": {},
+        "messageHandlers": {},
+        "title": "Trial Sequence",
+        // this is the content of the template, all of these are going to repeat x times
+        "content": [
+          {
+            "type": "lab.html.Screen", //the get ready screen
+            "parameters": {"getReadyText": getReadyText},
+            "responses": {},
+            "messageHandlers": {"before:prepare": function anonymous(){ //this is a function which will happen each time we prepare this component
+					trialIndex = trialIndex+1;
+					getReadyText = "<main class='content-vertical-center content-horizontal-center'><div style='text-align:center;'>"+
+				"<p>Get ready for the next strip!</p>"+
+				"<p>This is trial " + trialIndex + " of "+n_trials+"</p>"+
+				"</div></main>"
+					this.parameters.getReadyText = getReadyText
+					this.options.media.images=[URL_stem + this.parameters.p1path,URL_stem + this.parameters.p2path,URL_stem + this.parameters.p3path,URL_stem + this.parameters.p4path,URL_stem + this.parameters.p5path,URL_stem + this.parameters.p6path]
+					//console.log("hello")
+			}
+},
+            "title": "GetReady",
+            "content": "${parameters.getReadyText}",
+            "timeout": getReadyDuration,
+            "datacommit": false
+          },
+          {
+            "type": "lab.html.Screen", //a screen presenting our stimulus
+            "responses": {
+              "keypress(Space)": "continue"
+            },
+            "title": "panel1", //tells us which panel we are using
+            "content": "<main class='content-vertical-center content-horizontal-center'><div style='text-align:center;'><img src='" + URL_stem + "${parameters.p1path}" +"'></div></main>" 
+          },
+          {
+            "type": "lab.html.Screen", //a screen presenting our stimulus
+            "responses": {
+              "keypress(Space)": "continue"
+            },
+            "title": "panel2", //tells us which panel we are using
+            "content": "<main class='content-vertical-center content-horizontal-center'><div style='text-align:center;'><img src='" + URL_stem + "${parameters.p2path}" +"'></div></main>" 
+          },     
+          {
+            "type": "lab.html.Screen", //a screen presenting our stimulus
+            "responses": {
+              "keypress(Space)": "continue"
+            },
+            "title": "panel3", //tells us which panel we are using
+            "content": "<main class='content-vertical-center content-horizontal-center'><div style='text-align:center;'><img src='" + URL_stem + "${parameters.p3path}" +"'></div></main>" 
+          },
+          {
+            "type": "lab.html.Screen", //a screen presenting our stimulus
+            "responses": {
+              "keypress(Space)": "continue"
+            },
+            "title": "panel4", //tells us which panel we are using
+            "content": "<main class='content-vertical-center content-horizontal-center'><div style='text-align:center;'><img src='" + URL_stem + "${parameters.p4path}" +"'></div></main>" 
+          },
+          {
+            "type": "lab.html.Screen", //a screen presenting our stimulus
+            "responses": {
+              "keypress(Space)": "continue"
+            },
+            "title": "panel5", //tells us which panel we are using
+            "content": "<main class='content-vertical-center content-horizontal-center'><div style='text-align:center;'><img src='" + URL_stem + "${parameters.p5path}" +"'></div></main>" 
+          },
+          {
+            "type": "lab.html.Screen", //a screen presenting our stimulus
+            "responses": {
+              "keypress(Space)": "continue"
+            },
+            "title": "panel6", //tells us which panel we are using
+            "content": "<main class='content-vertical-center content-horizontal-center'><div style='text-align:center;'><img src='" + URL_stem + "${parameters.p6path}" +"'></div></main>" 
+          },       
+          {
+            "type": "lab.html.Screen", //a screen presenting the question at the end EDITING CONTENT TO NOW SHOW QUESTION
+            "responses": {
+	            "keypress(1)": "1",
+				"keypress(2)": "2",                 
+            },
+            "title": "Question", //tells us which panel we are using
+            "content": "<main class='content-vertical-center content-horizontal-center'><div style='text-align:center;'>" + "<p>" + "${parameters.qText}" + "</p><p>" + questionText +"</p></div></main>" 
+          },                                                   
+        ]
+      } 
+    },    
     {
       "type": "lab.html.Screen", //this is the last screen in the study, which will timeout quickly if we are running in qualtrics
       "parameters": {},

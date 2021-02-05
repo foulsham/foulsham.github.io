@@ -61,6 +61,16 @@
 			trials.push(thisTrial);
 		}
 
+		var m = Math.random() //randomly order blocks 1 and 2
+		if (m>0.5) {
+			trialsB1=trials.slice(0,(n_trials/2));
+			trialsB2=trials.slice((n_trials/2)); }
+		else {
+			trialsB2=trials.slice(0,(n_trials/2));
+			trialsB1=trials.slice((n_trials/2)); }			
+			
+
+
 //TO CHANGE THE GET READY SCREEN TO GIVE AN UPDATE ON PROGRESS
 // a handler function will run every time the screen is prepared to update this
 	var trialIndex = 0
@@ -109,11 +119,11 @@ const study = lab.util.fromObject({
       "type": "lab.flow.Loop", //next, we have a loop which is going to loop through all our trials/strips
       "parameters": {},
       //every time the loop runs, it will use a set of parameters from this list
-      "templateParameters": trials,
+      "templateParameters": trialsB1,
       "responses": {},
       "messageHandlers": {},
       "shuffle": true, //this means the trials will be in a shuffled order
-      "title": "Trial",
+      "title": "TrialB1",
       //the loop works by repeating a template, defined here
       "template": {
         "type": "lab.flow.Sequence",
@@ -259,6 +269,160 @@ const study = lab.util.fromObject({
         ]
       } 
     },
+{
+      "type": "lab.flow.Loop", //next, we have a loop which is going to loop through all our trials/strips
+      "parameters": {},
+      //every time the loop runs, it will use a set of parameters from this list
+      "templateParameters": trialsB2,
+      "responses": {},
+      "messageHandlers": {},
+      "shuffle": true, //this means the trials will be in a shuffled order
+      "title": "TrialB2",
+      //the loop works by repeating a template, defined here
+      "template": {
+        "type": "lab.flow.Sequence",
+        "parameters": {},
+        "responses": {},
+        "messageHandlers": {},
+        "title": "Trial Sequence",
+        // this is the content of the template, all of these are going to repeat x times
+        "content": [
+          {
+            "type": "lab.html.Screen", //the get ready screen
+            "parameters": {"getReadyText": getReadyText},
+            "responses": {},
+            "messageHandlers": {"before:prepare": function anonymous(){ //this is a function which will happen each time we prepare this component
+					trialIndex = trialIndex+1;
+					getReadyText = "<main class='content-vertical-center content-horizontal-center'><div style='text-align:center;'>"+
+				"<p>Get ready for the next strip!</p>"+
+				"<p>Press 2 to move forward and 1 to move back to the previous panel.</p>"+
+				"<p>This is trial " + trialIndex + " of "+n_trials+"</p>"+
+				"</div></main>"
+					this.parameters.getReadyText = getReadyText
+					//this.options.media.images=[this.parameters.p1path]
+					//console.log(this.options.media)
+			}
+},
+            "title": "GetReady",
+            "content": "${parameters.getReadyText}",
+            "timeout": getReadyDuration,
+            "datacommit": false
+          },
+              
+		  {
+			"type": "lab.html.Screen", //a screen presenting our stimulus. NEW: now just one screen with events which control looping
+			"parameters":{"p":1,"panelTimes":[],"lastTime":0}, //keep track of panel count and response times
+			"title": "panels", //tells us we are showing panels, have to handle everything else ourselves
+			"media":{}, //new, for preloading. Sets up empty object which we then fill in beforeprep handler
+			"content": "<main class='content-vertical-center content-horizontal-center'><div style='text-align:center;' id='imdiv'><img src='" + URL_stem + "${parameters.p1path}" +"'></div></main>", 
+			'events': {"keypress(2)": function(event) { //we'll call this function to go to next panel
+      					p=this.parameters.p+1
+      					this.parameters.p=p
+      					pt=this.parameters.panelTimes
+      					x=null
+      					switch (p) { //depending on the current panel set the new one
+      					//when we switch, duration is the diff between last event time and time now
+      						case 2: //we've advanced to 2, i.e., ended 1
+      							ctext = URL_stem + this.parameters.p2path;
+      							x={"p":1,"dur":this.timer-this.parameters.lastTime}; 
+      							break;
+      						case 3:
+      							ctext = URL_stem + this.parameters.p3path;
+      							x={"p":2,"dur":this.timer-this.parameters.lastTime};
+      							break;      
+      						case 4: 
+      							ctext = URL_stem + this.parameters.p4path;
+      							x={"p":3,"dur":this.timer-this.parameters.lastTime};
+      							break;
+      						case 5:
+      							ctext = URL_stem + this.parameters.p5path;
+      							x={"p":4,"dur":this.timer-this.parameters.lastTime};
+      							break; 
+      						case 6: 
+      							ctext = URL_stem + this.parameters.p6path;
+      							x={"p":5,"dur":this.timer-this.parameters.lastTime};
+      							break;
+      						case 7: //end component here by calling end, not sure how though!
+      							x={"p":6,"dur":this.timer-this.parameters.lastTime};    							
+      							this.end()							      													      					
+      					}	
+      					//add the data to our growing list						
+      					pt.push(x);
+      					this.parameters.panelTimes=pt;
+      					//reset the last time
+      					this.parameters.lastTime=this.timer;
+      										
+      					//now change it using div
+      					document.getElementById('imdiv').innerHTML="<img src='" + ctext + "'>";
+										},//end of this event
+									
+						"keypress(1)": function(event) { //we'll call this to go back a panel
+      					p=this.parameters.p-1
+      					this.parameters.p=p
+      					pt=this.parameters.panelTimes
+      					x=null      					
+      					switch (p) { //depending on the current panel set the new one
+      					  							
+      						case 1: //we've come from 2
+      							ctext = URL_stem + this.parameters.p1path;
+      							x={"p":2,"dur":this.timer-this.parameters.lastTime};
+      							break;
+      						case 2:
+      							ctext = URL_stem + this.parameters.p2path;
+      							x={"p":3,"dur":this.timer-this.parameters.lastTime};
+      							break;      
+      						case 3: 
+      							ctext = URL_stem + this.parameters.p3path;
+      							x={"p":4,"dur":this.timer-this.parameters.lastTime};
+      							break;
+      						case 4:
+      							ctext = URL_stem + this.parameters.p4path;
+      							x={"p":5,"dur":this.timer-this.parameters.lastTime};
+      							break; 
+      						case 5: 
+      							ctext = URL_stem + this.parameters.p5path;	
+      							x={"p":6,"dur":this.timer-this.parameters.lastTime};				      													      					
+      					}					
+      					
+      					//handle case where we've tried to go back on p1
+      					if (p>0) {
+							//add the data to our growing list						
+							pt.push(x);
+							this.parameters.panelTimes=pt;
+							//reset the last time
+							this.parameters.lastTime=this.timer;      					
+												
+							//now change it using div
+							document.getElementById('imdiv').innerHTML="<img src='" + ctext + "'>";		
+      					}   else {
+      					
+      						p=1;
+      						this.parameters.p=p;
+      					
+      					}
+											
+							},//end of this event
+						},//end of all events
+				"messageHandlers": {"before:prepare": function anonymous(){ //this is a function which will happen each time we prepare this component
+					this.options.media.images=[URL_stem + this.parameters.p1path,URL_stem + this.parameters.p2path,URL_stem + this.parameters.p3path,URL_stem + this.parameters.p4path,URL_stem + this.parameters.p5path,URL_stem + this.parameters.p6path]
+					//console.log(this.options.media)
+			}
+},			
+		  },
+         
+                
+          {
+            "type": "lab.html.Screen", //a screen presenting the question at the end EDITING CONTENT TO NOW SHOW QUESTION
+            "responses": {
+	            "keypress(1)": "1",
+				"keypress(2)": "2",                 
+            },
+            "title": "Question", //tells us which panel we are using
+            "content": "<main class='content-vertical-center content-horizontal-center'><div style='text-align:center;'>" + "<p>" + "${parameters.qText}" + "</p><p>" + questionText +"</p></div></main>" 
+          },                                                   
+        ]
+      } 
+    },    
     {
       "type": "lab.html.Screen", //this is the last screen in the study, which will timeout quickly if we are running in qualtrics
       "parameters": {},
