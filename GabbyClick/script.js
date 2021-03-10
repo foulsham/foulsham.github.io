@@ -12,8 +12,8 @@
 	var instructions = "<main class='content-vertical-center content-horizontal-center'><div style='text-align:center;'>"+
 	"<p>You will now see a series of images from a game.</p>"+
 	"<p>Your task is to try to find the target as quickly as possible.</p>"+
-	"<p>Use the mouse to click on the target in each scene.</p>"+
-	"<p>...</p>"+
+	"<p>Use the mouse to click on the target in each scene. If there is no target, press the space bar.</p>"+
+	"<p><strong>Before each image you will see a red circle. Please click on the red circle to start each trial.</strong></p>"+
 	"<p>Please press SPACE when you're ready (you may need to click here with the mouse first!)</p>"+
 	"</div></main>"
 	var getReadyText = "<main class='content-vertical-center content-horizontal-center'><div style='text-align:center;'><p>Get ready for the next trial!</p></div></main>"
@@ -125,6 +125,7 @@ const study = lab.util.fromObject({
 					getReadyText = "<main class='content-vertical-center content-horizontal-center'><div style='text-align:center;'>"+
 				"<p>Get ready for the next trial!</p>"+
 				"<p>This is trial " + trialIndex + " of "+n_trials+"</p>"+
+				"<p>(Click the target, or press space if there is no target present)</p>"+
 				"</div></main>"
 					this.parameters.getReadyText = getReadyText
 					this.options.media.images=[URL_stem + this.parameters.image]
@@ -137,10 +138,20 @@ const study = lab.util.fromObject({
             "datacommit": false
           },
           {
+            "type": "lab.html.Screen", //a screen a central stimulus to click
+            "parameters": {},
+            "responses": {
+              "click.circclass": "click response" //should only fire on the image
+            },
+            "title": "circDisplay", //tells us which panel we are using
+            "content": "<main class='content-vertical-center content-horizontal-center'><div style='text-align:center;'><img class='circclass'; src='img/circle.png'></div></main>",         
+          },          
+          {
             "type": "lab.html.Screen", //a screen presenting our stimulus
             "parameters": {"clickX": -1,"clickY":-1},
             "responses": {
-              "keypress(q)": "quit"
+              "keypress(q)": "quit",
+              "keypress(Space)": "TA"
               //"click.imclass": "click response" //should only fire on the image
             },
             "title": "imgDisplay", //tells us which panel we are using
@@ -154,7 +165,7 @@ const study = lab.util.fromObject({
 							this.end("ClickReceived"); //end the trial
   						},
           	},          
-          },      
+          },                
         ]
       } 
     },
