@@ -4,9 +4,14 @@
 
 //template code can be downloaded from  https://labjs.felixhenninger.com
 
-//LATEST CHANGES FEB 2021
+//CHANGES FEB 2021
 // - added question screen, this is loaded from datasource and presented as an HTML at the end
 // - also added preloading which may help?
+
+//CHANGES MAR 2021
+//trying to solve problem with massive embedded data 
+//prune data which is saved
+//split data at the end
 
 //NOTES ON CHANGING!
 
@@ -114,6 +119,7 @@ const study = lab.util.fromObject({
 	  },
       "messageHandlers": {},
       "title": "Intro",
+      "datacommit": false, //means that we WON'T SAVE this component's timing etc.
       "content": instructions,
     },
     {
@@ -139,6 +145,7 @@ const study = lab.util.fromObject({
             "type": "lab.html.Screen", //the get ready screen
             "parameters": {"getReadyText": getReadyText},
             "responses": {},
+            "datacommit": false, //means that we WON'T SAVE this component's timing etc.
             "messageHandlers": {"before:prepare": function anonymous(){ //this is a function which will happen each time we prepare this component
 					trialIndex = trialIndex+1;
 					getReadyText = "<main class='content-vertical-center content-horizontal-center'><div style='text-align:center;'>"+
@@ -238,6 +245,7 @@ const study = lab.util.fromObject({
             "type": "lab.html.Screen", //the get ready screen
             "parameters": {"getReadyText": getReadyText},
             "responses": {},
+            "datacommit": false, //means that we WON'T SAVE this component's timing etc.
             "messageHandlers": {"before:prepare": function anonymous(){ //this is a function which will happen each time we prepare this component
 					trialIndex = trialIndex+1;
 					getReadyText = "<main class='content-vertical-center content-horizontal-center'><div style='text-align:center;'>"+
