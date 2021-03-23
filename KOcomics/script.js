@@ -115,6 +115,7 @@ const study = lab.util.fromObject({
       "messageHandlers": {},
       "title": "Intro",
       "content": instructions,
+	"datacommit": false,
     },
     {
       "type": "lab.flow.Loop", //next, we have a loop which is going to loop through all our trials/strips
