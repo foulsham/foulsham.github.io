@@ -21,6 +21,7 @@
 //CHANGE THE ISI DURATIONS HERE
 	var getReadyDuration = 2000
 	var fixCrossDuration = 1000
+	var imgDuration = 10000
 
 //TO CHANGE THE SEQUENCE OF EVENTS IN A TRIAL...
 	//head down to line 100ish where the inner loop template starts
@@ -40,11 +41,13 @@
 		var im1list = DataSourcePS.slice(0,10)
 		var im2list = DataSourcePS.slice(10,20)
 		var im3list = DataSourcePT.slice(0,10)
+		var tlist = ['PS','PS','PT'];
 		} else {
 		var cond = "MostlyPT";
 		var im1list = DataSourcePT.slice(0,10)
 		var im2list = DataSourcePT.slice(10,20)
 		var im3list = DataSourcePS.slice(0,10)		
+		var tlist = ['PT','PT','PS'];		
 		}
 
 	//loop through trials, adding the listed images depending on the condition (and also mixing up which is which)
@@ -52,10 +55,6 @@
 	var n_trials = 10; //length of array gives number of sequences
 
 	// LAB.JS loop will handle randomisation, but need to transform the DataSource into an object for the trial list
-	// i.e., loop through the data source, adding each item to named properties
-
-		//this is the list of parameters that we are going to end up with for every "trial" sequence
-		trialProps=["condition","imnum","image","condition"];
 
 		trials=[];
 		for (index = 0; index < n_trials; index++) {
@@ -63,19 +62,34 @@
 			//for each trial, loop through and add them to a new object with named fields
 			thisTrial={};
 			thisTrial["condition"]=cond;
-			if (R<0.5) {
-				var imlist=[
-			} else {
+
+			//shuffle the three images so they are not always in the same place, and keep track
+			var reorder = [0,1,2];
+			  var currentIndex = 3,  randomIndex;
+
+			  // While there remain elements to shuffle...
+			  while (0 !== currentIndex) {
+
+				// Pick a remaining element...
+				randomIndex = Math.floor(Math.random() * currentIndex);
+				currentIndex--;
+
+				// And swap it with the current element.
+				[reorder[currentIndex], reorder[randomIndex]] = [
+				  reorder[randomIndex], reorder[currentIndex]];
+			  }
+			  
+			//images are now in each list
+			var trialImList = [im1list[index],im2list[index],im3list[index]];
+			thisTrial["imCondList"] = [tlist[reorder[0]],tlist[reorder[1]],tlist[reorder[2]]];
+			thisTrial["imA"] = trialImList[reorder[0]];
+			thisTrial["imB"] = trialImList[reorder[1]];
+			thisTrial["imC"] = trialImList[reorder[2]];
 			
-			}
-			
-			
-			for (p = 0; p < trialProps.length; p++) {
-				thisTrial[trialProps[p]]=DataSource[index][p];
-			}
 			trials.push(thisTrial);
 		}
 
+		console.log(trials)
 //TO CHANGE THE GET READY SCREEN TO GIVE AN UPDATE ON PROGRESS
 // a handler function will run every time the screen is prepared to update this
 	var trialIndex = 0
@@ -83,6 +97,7 @@
 	"<p>Get ready for the next trial!</p>"+
 	"<p>This is trial " + trialIndex + " of "+n_trials+"</p>"+
 	"</div></main>"
+	var nextBigImage = "circle.jpg";
 		
 // Define study
 //this uses JSON syntax, so need to be careful with double quotes etc?
@@ -149,7 +164,7 @@ const study = lab.util.fromObject({
 				"<p>(Click the image that you want to see for longer)</p>"+
 				"</div></main>"
 					this.parameters.getReadyText = getReadyText
-					this.options.media.images=[URL_stem + this.parameters.image]
+					this.options.media.images=[URL_stem + this.parameters.imA,URL_stem + this.parameters.imB,URL_stem + this.parameters.imC]					
 					//console.log("hello")
 			}
 },
@@ -158,34 +173,56 @@ const study = lab.util.fromObject({
             "timeout": getReadyDuration,
             "datacommit": false
           },
-          {
-            "type": "lab.html.Screen", //a screen a central stimulus to click
-            "parameters": {},
-            "responses": {
-              "click.circclass": "click response" //should only fire on the image
-            },
-            "title": "circDisplay", //tells us which panel we are using
-            "content": "<main class='content-vertical-center content-horizontal-center'><div style='text-align:center;'><img class='circclass'; src='img/circle.png'></div></main>",         
-          },          
+//           {
+//             "type": "lab.html.Screen", //a screen a central stimulus to click
+//             "parameters": {},
+//             "responses": {
+//               "click.circclass": "click response" //should only fire on the image
+//             },
+//             "title": "circDisplay", //tells us which panel we are using
+//             "content": "<main class='content-vertical-center content-horizontal-center'><div style='text-align:center;'><img class='circclass'; src='img/circle.png'></div></main>",         
+//           },          
           {
             "type": "lab.html.Screen", //a screen presenting our stimulus
-            "parameters": {"clickX": -1,"clickY":-1},
+            "parameters": {"clicked": "X"},
             "responses": {
               "keypress(q)": "quit"
               //"click.imclass": "click response" //should only fire on the image
             },
-            "title": "imgDisplay", //tells us which panel we are using
-            "content": "<main class='content-vertical-center content-horizontal-center'><div style='text-align:center;'><img class='imclass'; src='" + URL_stem + "${parameters.image}" +"'></div></main>", 
-			"events": {"click.imclass": function(event) { //we'll call this function when we click on the image
-							//console.log("fire");
-							//console.log(event);
-							//can call offset properties to get x/y location
-							this.parameters.clickX = event.offsetX;
-							this.parameters.clickY = event.offsetY;
-							this.end("ClickReceived"); //end the trial
+            "title": "imgChoice", //tells us which panel we are using
+            "content": "<main><div style='text-align:center;'><img class='imclassA'; src='" + URL_stem + "${parameters.imA}"+"'></div><p>&nbsp;</p><div style='text-align:center;'><img class='imclassB'; src='" + URL_stem + "${parameters.imB}" +"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img class='imclassC'; src='"+ URL_stem + "${parameters.imC}"+"'></div></p></main>", 
+			"events": {"click.imclassA": function(event) { //we'll call this function when we click on the image
+							this.parameters.clicked = this.parameters.imA;
+							this.end("ClickReceivedA"); //end the trial
+							nextBigImage = this.parameters.imA;
   						},
+  						"click.imclassB": function(event) { //we'll call this function when we click on the image
+							this.parameters.clicked = this.parameters.imB;
+							this.end("ClickReceivedB"); //end the trial
+							nextBigImage = this.parameters.imB;
+  						},
+						"click.imclassC": function(event) { //we'll call this function when we click on the image
+							this.parameters.clicked = this.parameters.imC;
+							this.end("ClickReceivedC"); //end the trial
+							nextBigImage = this.parameters.imC;
+  						},  						
+  						
           	},          
-          },                
+          },
+          {
+            "type": "lab.html.Screen", //the get ready screen
+            "parameters": {"im": " "},
+            "responses": {},
+            "tardy": true,
+            "messageHandlers": {"before:prepare": function anonymous(){ //this is a function which will happen each time we prepare this component
+					this.parameters.im = "<main><div style='text-align:center;'><img height='500'; src='"+URL_stem+nextBigImage+"'></div></main>"									
+			}
+},
+            "title": "imgDisplay",
+            "content": "${parameters.im}",
+            "timeout": imgDuration,
+            "datacommit": false
+          },                          
         ]
       } 
     },
