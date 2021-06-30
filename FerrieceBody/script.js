@@ -10,10 +10,9 @@
 	//var instructions = "You will now see a set of short comic strips like the ones you might see in a newspaper. Some of the images may have information missing, but your job is simply to read them and try to understand the story. You will see each panel one at a time. When you've read each panel, press SPACE to continue. At the end of each strip we'll ask you how easy it was to understand the story. Please press the space bar when you're ready."
 	// To make it prettier, define it within html
 	var instructions = "<main class='content-vertical-center content-horizontal-center'><div style='text-align:center;'>"+
-	"<p>INSTRUCTIONS GO HERE</p>"+
-	"<p>?</p>"+
-	"<p>Use the mouse to click on the image....</p>"+
-	"<p><strong>?</strong></p>"+
+	"<p>INSTRUCTIONS</p>"+
+	"<p>In this experiment you will see a series of trials. In each trial, 3 images will appear on the screen, and you must choose which of the 3 images you would like to see for a longer period of time. Once you click on your choice, this image will appear for a short period before the next trial begins. </p>"+
+	"<p>Use the mouse to click on the image that you would prefer to view....</p>"+
 	"<p>Please press SPACE when you're ready (you may need to click here with the mouse first!)</p>"+
 	"</div></main>"
 	var getReadyText = "<main class='content-vertical-center content-horizontal-center'><div style='text-align:center;'><p>Get ready for the next trial!</p></div></main>"
