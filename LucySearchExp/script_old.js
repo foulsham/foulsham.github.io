@@ -10,9 +10,10 @@
 	
 	// To make it prettier, define it within html
 	var instructions = "<main class='content-vertical-center content-horizontal-center'><div style='text-align:center;'>"+
-	"<p>In the following trials you will be asked to find a target image. You will be told what this target image is before seeing several images appear on the screen. The target image which you are asked to find may be present or it may be absent. </p>"+
-	"<p>Once the images have appeared on the screen, please make a response as quickly as possible depending on whether the target image is there or not.</p>"+
-	"<p><strong>Press Y if the target image is there and N if it is not</strong></p>"+
+	"<p>INSTRUCTIONS GO HERE</p>"+
+	"<p>?</p>"+
+	"<p>Press Y if the target image is there and N if it is not</p>"+
+	"<p><strong>?</strong></p>"+
 	"<p>Please press SPACE when you're ready (you may need to click here with the mouse first!)</p>"+
 	"</div></main>"
 	var getReadyText = "<main class='content-vertical-center content-horizontal-center'><div style='text-align:center;'><p>Get ready for the next trial!</p></div></main>"
@@ -40,9 +41,7 @@
 	//make a list for nice preloading
 	//store the target name and set size separately
 	
-	//now including a "blank" image which helps give us a regular table.
-	
-	var n_trials = 96; //length of array gives number of sequences
+	var n_trials = 6; //length of array gives number of sequences
 
 	// LAB.JS loop will handle randomisation, but need to transform the DataSource into an object for the trial list
 
@@ -51,10 +50,10 @@
 
 			//for each trial, loop through and add them to a new object with named fields
 			thisTrial={};
-			thisTrial["c"]=DataSource[index][0];
-			thisTrial["t"]=DataSource[index][1];			
+			thisTrial["condition"]=DataSource[index][0];
+			thisTrial["this_target"]=DataSource[index][1];			
 			thisTrial["ss"]=DataSource[index][2];
-			thisTrial["cr"]=DataSource[index][3];			
+			thisTrial["corresp"]=DataSource[index][3];			
 
 			//the number of images we have depends on the setsize
 			if (thisTrial["ss"]>3) {
@@ -111,7 +110,7 @@
 					if (tablecells[c-1]<=thisTrial["ss"]) {
 							T = T+"<img src='" + URL_stem + imlist[tablecells[c-1]-1]+"'>";	
 						} else {
-							T = T+"<img src='" + URL_stem + "Blank.jpg'>";
+							//T=T+"X";
 						}
 			  		T = T+"</td>";	
 			  		c++;		  
@@ -123,7 +122,6 @@
 			for (var i = 0; i < imlist.length; i++) {
 			   imlist[i]=URL_stem + imlist[i];
 			}			
-			imlist.push(URL_stem+"Blank.jpg");
 			thisTrial["imList"] = imlist;
 			thisTrial["imHTML"] = T;
 			
@@ -174,7 +172,6 @@ const study = lab.util.fromObject({
       "messageHandlers": {},
       "title": "Intro",
       "content": instructions,
-      "datacommit": false
     },
     {
       "type": "lab.flow.Loop", //next, we have a loop which is going to loop through all our trials
@@ -193,7 +190,6 @@ const study = lab.util.fromObject({
         "responses": {},
         "messageHandlers": {},
         "title": "Trial Sequence",
-        "datacommit": false,
         // this is the content of the template, all of these are going to repeat x times
         "content": [
           {
@@ -203,7 +199,7 @@ const study = lab.util.fromObject({
             "messageHandlers": {"before:prepare": function anonymous(){ //this is a function which will happen each time we prepare this component
 					trialIndex = trialIndex+1;
 					getReadyText = "<main class='content-vertical-center content-horizontal-center'><div style='text-align:center;'>"+
-				"<p>Get ready for the next trial! (remember: press Y or N according to whether you find the target)</p>"+
+				"<p>Get ready for the next trial!</p>"+
 				"<p>This is trial " + trialIndex + " of "+n_trials+"</p>"+
 				"<p></p>"+
 				"</div></main>"
@@ -225,7 +221,7 @@ const study = lab.util.fromObject({
             "messageHandlers": {"before:prepare": function anonymous(){ //this is a function which will happen each time we prepare this component
 					getReadyText = "<main class='content-vertical-center content-horizontal-center'><div style='text-align:center;'>"+
 				"<p>The target is...</p>"+
-				"<p>"+this.parameters.t+"</p>"+
+				"<p>"+this.parameters.this_target+"</p>"+
 				"</div></main>"
 					this.parameters.getReadyText = getReadyText
 					//dealing with preloading...
@@ -244,7 +240,7 @@ const study = lab.util.fromObject({
               "keypress(y)": "y",
               "keypress(n)": "n"
             },
-            "title": "S", //tells us which panel we are using
+            "title": "Search", //tells us which panel we are using
             "content": "${parameters.imHTML}",         
           },
         ]
@@ -269,19 +265,7 @@ study.options.datastore = new lab.data.Store()
 
 //useful for debugging data
 study.on('end', () => study.options.datastore.show())
-
-//this is useful for debugging the length of the JSON export
-// study.on('end', () => {
-// 	study.options.datastore.show();
-// 	var ds = study.options.datastore.exportJson();
-// 	console.log(ds)
-// 	console.log (ds.length)
-// 	return ds.length;
-// 	}
-// )
-
 //study.on('end', () => study.options.datastore.download())
 
 // Let's go!
 study.run()
-//console.log(study.options.datastore.length)
