@@ -9,13 +9,6 @@
 // ["c","KITCHEN",6,"n","b1.jpg","b2.jpg","b3.jpg","l1.jpg","l2.jpg","l3.jpg"]
 // ];
 
-var PracticeDataSource = [
-["S","KITCHEN",3,"y","Kitchen1.jpg","Bathroom1.jpg","Bathroom2.jpg","null","null","null"],
-["D","KITCHEN",3,"n","Forest5.jpg","Beach5.jpg","Beach6.jpg","null","null","null"],
-["D","BEACH",6,"y","Beach9.jpg","Kitchen6.jpg","Kitchen7.jpg","Kitchen8.jpg","Bathroom6.jpg","Bathroom7.jpg"],
-["S","BEACH",6,"n","Forest14.jpg","Forest16.jpg","Forest18.jpg","Forest20.jpg","Forest2.jpg","Forest4.jpg"]
-];
-
 var DataSource = [
 ["S","KITCHEN",3,"y","Kitchen1.jpg","Bathroom1.jpg","Bathroom2.jpg","null","null","null"],
 ["S","BATHROOM",3,"y","Bathroom2.jpg","Kitchen2.jpg","Kitchen3.jpg","null","null","null"],

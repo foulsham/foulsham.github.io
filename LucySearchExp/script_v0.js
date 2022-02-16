@@ -13,16 +13,8 @@
 	"<p>In the following trials you will be asked to find a target image. You will be told what this target image is before seeing several images appear on the screen. The target image which you are asked to find may be present or it may be absent. </p>"+
 	"<p>Once the images have appeared on the screen, please make a response as quickly as possible depending on whether the target image is there or not.</p>"+
 	"<p><strong>Press Y if the target image is there and N if it is not</strong></p>"+
-	"<p>The first few trials are for you to PRACTICE.</p>"+
 	"<p>Please press SPACE when you're ready (you may need to click here with the mouse first!)</p>"+
 	"</div></main>"
-	var pracinstruct = "<main class='content-vertical-center content-horizontal-center'><div style='text-align:center;'>"+
-	"<p>That is the end of the practice. The remaining trials work in exactly the same way. </p>"+
-	"<p>Please respond as quickly as possible depending on whether the target image is there or not.</p>"+
-	"<p><strong>Press Y if the target image is there and N if it is not</strong></p>"+
-	"<p></p>"+
-	"<p>Please press SPACE when you're ready</p>"+
-	"</div></main>"	
 	var getReadyText = "<main class='content-vertical-center content-horizontal-center'><div style='text-align:center;'><p>Get ready for the next trial!</p></div></main>"
 	
 //CHANGE THE ISI DURATIONS HERE
@@ -50,11 +42,7 @@
 	
 	//now including a "blank" image which helps give us a regular table.
 	
-	//add a few trials at the beginning to use for practice block, and split them after we do our table making
-	var ds = DataSource.concat(PracticeDataSource);
-	DataSource = ds;
-	
-	var n_trials = 100; //length of array gives number of sequences 96+4 practice
+	var n_trials = 96; //length of array gives number of sequences
 
 	// LAB.JS loop will handle randomisation, but need to transform the DataSource into an object for the trial list
 
@@ -141,10 +129,7 @@
 			
 			trials.push(thisTrial);
 		}
-
-var practrials = trials.slice(96);
-trials = trials.slice(0,96);  
-n_trials = 96;  
+    
 //console.log(trials)
 
 //TO CHANGE THE GET READY SCREEN TO GIVE AN UPDATE ON PROGRESS
@@ -189,89 +174,6 @@ const study = lab.util.fromObject({
       "messageHandlers": {},
       "title": "Intro",
       "content": instructions,
-      "datacommit": false
-    },
-    
-    {
-      "type": "lab.flow.Loop", //next, we have a loop which is going to loop through all PRACTICE trials
-      "parameters": {},
-      //every time the loop runs, it will use a set of parameters from this list
-      "templateParameters": practrials,
-      "responses": {},
-      "messageHandlers": {},
-      "shuffle": true, //this means the trials will be in a shuffled order
-      "title": "trialLoop",
-      //the loop works by repeating a template, defined here
-      "template": {
-        "type": "lab.flow.Sequence",
-        "parameters": {},
-        "media": {},
-        "responses": {},
-        "messageHandlers": {},
-        "title": "Trial Sequence",
-        "datacommit": false,
-        // this is the content of the template, all of these are going to repeat x times
-        "content": [
-          {
-            "type": "lab.html.Screen", //the get ready screen
-            "parameters": {"getReadyText": getReadyText},
-            "responses": {},
-            "messageHandlers": {"before:prepare": function anonymous(){ //this is a function which will happen each time we prepare this component
-					getReadyText = "<main class='content-vertical-center content-horizontal-center'><div style='text-align:center;'>"+
-				"<p>Get ready for the next trial! (remember: press Y or N according to whether you find the target)</p>"+
-				"<p></p>"+
-				"</div></main>"
-					this.parameters.getReadyText = getReadyText
-			}
-},
-            "title": "GetReady",
-            "content": "${parameters.getReadyText}",
-            "timeout": getReadyDuration,
-            "datacommit": false
-},
-          {
-            "type": "lab.html.Screen", //the TARGET screen
-            "parameters": {"getReadyText": getReadyText},
-            "responses": {},
-            "messageHandlers": {"before:prepare": function anonymous(){ //this is a function which will happen each time we prepare this component
-					getReadyText = "<main class='content-vertical-center content-horizontal-center'><div style='text-align:center;'>"+
-				"<p>The target is...</p>"+
-				"<p>"+this.parameters.t+"</p>"+
-				"</div></main>"
-					this.parameters.getReadyText = getReadyText
-					//dealing with preloading...
-					this.options.media.images=this.parameters.imList					
-					//console.log("hello")
-			}
-},
-            "title": "Target",
-            "content": "${parameters.getReadyText}",
-            "timeout": targetDuration,
-            "datacommit": false
-},       
-          {
-            "type": "lab.html.Screen", //a screen presenting our stimulus
-            "responses": {
-              "keypress(y)": "y",
-              "keypress(n)": "n"
-            },
-            "title": "S", //tells us which panel we are using
-            "content": "${parameters.imHTML}",  
-            "datacommit": false,       
-          },
-        ]
-      } 
-    },
-    
-        {
-      "type": "lab.html.Screen", //this is additional post practice instructions
-      "parameters": {},
-	  "responses": {
-		  "keypress(Space)": "continue"
-	  },
-      "messageHandlers": {},
-      "title": "Intro",
-      "content": pracinstruct,
       "datacommit": false
     },
     {
