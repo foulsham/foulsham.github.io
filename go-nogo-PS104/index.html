@@ -32,13 +32,17 @@ $( document ).ready(function() {
     jsPsych.init({
              timeline: go_nogo_experiment,
              display_element: "getDisplayElement",
-             fullscreen: true,
+             fullscreen: false,
              on_trial_finish: function(data){
                addID('go-nogo')
              },
 
              on_finish: function(data){
 
+				var all_data = jsPsych.data.dataAsCSV();
+				var m = all_data;
+				console.log(m)
+				parent.postMessage(m,"*"); 
 				
 //				jsPsych.data.displayData('csv');
 				
