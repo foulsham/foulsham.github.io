@@ -149,8 +149,8 @@ for (var i = 0; i < num_go_stim; i++) {
 }
 
 //THIS IS WHERE WE CAN CHANGE LENGTH 5 n 10?
-var practice_trials = jsPsych.randomization.repeat(practice_stimuli, 2); 
-var test_trials = jsPsych.randomization.repeat(test_stimuli_block, 2);   
+var practice_trials = jsPsych.randomization.repeat(practice_stimuli, 4); 
+var test_trials = jsPsych.randomization.repeat(test_stimuli_block, 7);   
 
 
 
