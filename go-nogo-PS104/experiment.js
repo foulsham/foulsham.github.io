@@ -257,7 +257,7 @@ var debrief_conf = {
       <p> </p>
       <p class = center-block-text><strong>Are you sure you want to finish (have you written down your scores?)</strong></p>
       <p> </p>
-      <p class = center-block-text>Press any key to complete the experiment. Thank you!</p></div>`;
+      <p class = center-block-text>Press any key to complete the experiment. You can then close the window. Thank you!</p></div>`;
 
   }
 };
