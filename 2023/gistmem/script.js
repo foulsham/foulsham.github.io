@@ -189,8 +189,8 @@ var F = EDS.filter(function(c) {return c[3]==this;},S[index])
 		}	
 	
 	//for practice, just use first 10 trials
-	testTrials=testTrials.slice(0,10);
-	encTrials=encTrials.slice(0,20);
+	//testTrials=testTrials.slice(0,10);
+	//encTrials=encTrials.slice(0,20);
 
 
 //TO CHANGE THE GET READY SCREEN TO GIVE AN UPDATE ON PROGRESS
