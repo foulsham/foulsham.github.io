@@ -19,7 +19,7 @@
 	var instructions = "<main class='content-vertical-center content-horizontal-center'><div style='text-align:center;'>"+
 	"<p>You will now see a set of short comic strips like the ones you might see in a newspaper.</p>"+
 	"<p>Your job is simply to read them and try to understand the story.</p>"+
-	"<p>You will see each panel one at a time. <em>When you've read each panel, press SPACE to continue.</em></p>"+
+	"<p>You will see each panel one at a time. <strong>When you've read each panel, press SPACE to continue.</strong></p>"+
 	"<p>At the end of each strip we'll ask you a simple question about the story.</p>"+
 	"<p>Please press SPACE when you're ready to begin (you may need to click here with the mouse first!)</p>"+
 	"</div></main>"
@@ -72,7 +72,9 @@
 		trialsB1=trials.slice(shuffledArr[0],shuffledArr[0]+12);
 		trialsB2=trials.slice(shuffledArr[1],shuffledArr[1]+12);			
 		trialsB3=trials.slice(shuffledArr[2],shuffledArr[2]+12);		
-			
+// 		trialsB1=trials.slice(shuffledArr[0],shuffledArr[0]+2);
+// 		trialsB2=trials.slice(shuffledArr[1],shuffledArr[1]+2);			
+// 		trialsB3=trials.slice(shuffledArr[2],shuffledArr[2]+2);			
 
 //TO CHANGE THE GET READY SCREEN TO GIVE AN UPDATE ON PROGRESS
 // a handler function will run every time the screen is prepared to update this
@@ -127,6 +129,7 @@ const study = lab.util.fromObject({
       "messageHandlers": {},
       "shuffle": true, //this means the trials will be in a shuffled order
       "title": "TrialB1",
+      "datacommit": false,
       //the loop works by repeating a template, defined here
       "template": {
         "type": "lab.flow.Sequence",
@@ -135,6 +138,7 @@ const study = lab.util.fromObject({
         "responses": {},
         "messageHandlers": {},
         "title": "Trial Sequence",
+        "datacommit": false,
         // this is the content of the template, all of these are going to repeat x times
         "content": [
           {
@@ -234,6 +238,7 @@ const study = lab.util.fromObject({
       "messageHandlers": {},
       "shuffle": true, //this means the trials will be in a shuffled order
       "title": "TrialB2",
+      "datacommit": false,
       //the loop works by repeating a template, defined here
       "template": {
         "type": "lab.flow.Sequence",
@@ -242,6 +247,7 @@ const study = lab.util.fromObject({
         "responses": {},
         "messageHandlers": {},
         "title": "Trial Sequence",
+        "datacommit": false,
         // this is the content of the template, all of these are going to repeat x times
         "content": [
           {
@@ -341,6 +347,7 @@ const study = lab.util.fromObject({
       "messageHandlers": {},
       "shuffle": true, //this means the trials will be in a shuffled order
       "title": "TrialB3",
+      "datacommit": false,
       //the loop works by repeating a template, defined here
       "template": {
         "type": "lab.flow.Sequence",
@@ -349,6 +356,7 @@ const study = lab.util.fromObject({
         "responses": {},
         "messageHandlers": {},
         "title": "Trial Sequence",
+        "datacommit": false,
         // this is the content of the template, all of these are going to repeat x times
         "content": [
           {
