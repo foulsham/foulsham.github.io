@@ -11,9 +11,9 @@
 	
 	// To make it prettier, define these within html
 	var instructions = "<main class='content-vertical-center content-horizontal-center'><div style='text-align:center;'>"+
-	"<p>Instructions go here. </p>"+
-	"<p>....</p>"+
-	"<p><strong>...</strong></p>"+
+	"<p>In this experiment you will see a series of images. All we want you to do is try to remember them.</p>"+
+	"<p>After you have looked at each image, <strong> press space to continue.</strong></p>"+
+	"<p>When you have viewed all the images there will be a simple memory test.</p>"+
 	"<p>The first few trials are for you to PRACTICE.</p>"+
 	"<p>Please press SPACE when you're ready (you may need to click here with the mouse first!)</p>"+
 	"</div></main>"
