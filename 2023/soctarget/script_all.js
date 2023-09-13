@@ -16,7 +16,6 @@
 const queryParams = new URLSearchParams(window.location.search)
 var vidstr = queryParams.get('vid')
 
-
 //define main video HTML here
 
 //we're going to display video plus a custom button to start
@@ -30,6 +29,21 @@ vidhtml = "<div style='text-align:center;'" +
 "<button id='btnContinue' class='play' title='continue' accesskey='C'" +
 "onclick='contFun();' disabled>Continue</button></div></div>"+
 "<div style='text-align:center;' id='instText'>Remember to press SPACE every time the circle changes! Ready? Click Start to begin.</div>"
+
+//now use another to customise the instruction string
+if (queryParams.has('cont')) {
+
+vidhtml = "<div style='text-align:center;'" + 
+"id='playerdiv'><video id='vid'><source src='"+vidpath+".mp4' type='video/mp4'>"+
+"Your browser does not support the video tag.</video>" +
+"<div id='controls'><button id='btnPlayPause' class='play' title='play' accesskey='P'" +
+"onclick='playPauseVideo();'>Start</button>"+
+"<button id='btnContinue' class='play' title='continue' accesskey='C'" +
+"onclick='contFun();' disabled>Continue</button></div></div>"+
+"<div style='text-align:center;' id='instText'>Watch the videos and think about the people. Click Start to begin.</div>"
+
+}
+
 
 //define functions which will control video
 
