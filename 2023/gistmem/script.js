@@ -1,4 +1,5 @@
 //Script for running PS900 project on gist memory (Keiti, Aina). June 2023
+//changed Aug 2024 for prolific
 
 
 //Script for running the experiment. Modified from a builder example from lab.js
@@ -25,7 +26,7 @@
 	"<p>Please press SPACE when you're ready</p>"+
 	"</div></main>"
 	var pracinstruct = "<main class='content-vertical-center content-horizontal-center'><div style='text-align:center;'>"+
-	"<p>That is the end of the practice. The remaining trials work in exactly the same way. </p>"+
+	"<p>That is the end of the practice. The remaining trials work in exactly the same way, but you will see a lot more images! Try your best! </p>"+
 	"<p>For the first block, just try to remember each image. Press space when you have finished looking at each image to move on to the next one.</p>"+
 	"<p></p>"+
 	"<p>Please press SPACE when you're ready to start</p>"+
